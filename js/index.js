@@ -4,6 +4,9 @@ import { preloadImages, getMousePos, lerp } from './utils.js';
 // Registers the Flip plugin with GSAP
 gsap.registerPlugin(Flip);
 
+// Register ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger);
+
 const body = document.body; // Reference to the body element
 const frame = document.querySelector('.frame'); // Reference to the frame element
 const content = document.querySelector('.content'); // Reference to the content element
@@ -197,6 +200,35 @@ const stopRendering = () => {
   }
 };
 
+// function to set up the parallax effect
+const setupParallax = () => {
+  const contentSections = document.querySelectorAll(
+    '.content > *:not(.content__footer, .content__header)'
+  );
+
+  contentSections.forEach((section, index) => {
+    gsap.fromTo(
+      section,
+      {
+        y: index % 2 === 0 ? 100 : -100,
+        opacity: 0,
+      },
+      {
+        y: 0,
+        opacity: 1,
+        ease: 'power2.out',
+        duration: 1,
+        scrollTrigger: {
+          trigger: section,
+          start: 'top bottom-=100',
+          end: 'bottom center',
+          scrub: true,
+        },
+      }
+    );
+  });
+};
+
 const enterFullview = () => {
   // Logic to animate the middle image to full view using gsap Flip
   const flipstate = Flip.getState(middleRowItemInner);
@@ -259,10 +291,13 @@ const enterFullview = () => {
       '<'
     );
 
+  middleRowItemInnerImage.classList.add('row__item-img--position');
+
   // Hide the button
   enterButton.classList.add('hidden');
   // Scrolling allowed
   body.classList.remove('noscroll');
+  setupParallax();
 };
 
 // Initialization function

@@ -245,6 +245,10 @@ a:focus-visible {
 	will-change: transform, filter;
 }
 
+.row__item-img--position {
+	position: fixed;
+}
+
 .enter {
 	color: rgba(0,0,0,0.8);
 	position: absolute;
@@ -374,5 +378,28 @@ a:focus-visible {
 	}
 	.content__text p.highlight {
 		font-size: clamp(2rem,7vh,4rem);
+	}
+}
+
+@media screen and (max-width: 768px) {
+	.grid {
+		width: auto;
+		height: auto;
+		transform: none;
+	}
+
+	.row {
+		flex-direction: column;
+		height: 175px;
+	}
+
+	.row__item {
+		width: 242px;
+		height: auto;
+	}
+
+	.enter {
+		padding: 1.25rem 3rem;
+		font-size: 1rem;
 	}
 }
